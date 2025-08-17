@@ -1,0 +1,52 @@
+import db from '../db/db.js';
+
+export const getAllFolders = async (req, res, next) => {
+  try {
+    const items = await db.folder.getAll();
+    res.json(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFolderById = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  try {
+    const item = await db.folder.getById(id);
+    if (!item) return res.status(404).json({ error: 'Folder not found' });
+    res.json(item);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createFolder = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const newItem = await db.folder.create({ name });
+    res.status(201).json(newItem);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateFolder = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  try {
+    const { name } = req.body;
+    const updatedItem = await db.folder.update(id, { name });
+    res.json(updatedItem);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteFolder = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  try {
+    await db.folder.delete(id);
+    res.json({ message: 'Folder deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
