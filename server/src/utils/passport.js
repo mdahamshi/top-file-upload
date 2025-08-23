@@ -9,7 +9,7 @@ export function setupPassport() {
       try {
         const user = await db.user.getByEmail(email);
         if (!user)
-          return done(null, false, { error: "Please check your username" });
+          return done(null, false, { error: "Please check your email" });
         const match = await bcrypt.compare(password, user.passwordHash);
         if (!match)
           return done(null, false, { error: "Please check your password" });

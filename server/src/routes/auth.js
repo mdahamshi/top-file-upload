@@ -9,6 +9,6 @@ import {
 
 const router = express.Router();
 
-router.post("/", authLogin);
+router.post("/login", authLogin);
 router.get("/logout", ensureAuthenticated, authLogout);
 export default router;

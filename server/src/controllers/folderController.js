@@ -9,8 +9,10 @@ export const getAllFolders = async (req, res, next) => {
   }
 };
 
+
 export const getFolderById = async (req, res, next) => {
-  const id = parseInt(req.params.id);
+  const {id} = req.params;
+  
   try {
     const item = await db.folder.getById(id);
     if (!item) return res.status(404).json({ error: 'Folder not found' });

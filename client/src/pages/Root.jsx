@@ -1,0 +1,72 @@
+import React, { useEffect } from 'react';
+import Header from '../components/Header';
+import { Outlet, useLocation, useNavigation } from 'react-router-dom';
+import Footer from '../components/Footer';
+import { getRandomColor } from '@sarawebs/sb-utils';
+import { useApp } from '../context/AppContext';
+import Copyright from '../components/Copyright';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import LoadingOverlay from '../components/LoadingOverly';
+
+import { CloudUpload } from 'lucide-react';
+const colors = [
+  '345 75% 31%', // #8e1330
+  '43 66% 32%', // #8a6c1d
+  '163 23% 32%', // #406555
+  '331 77% 27%', // #7c0e45
+  '320 70% 32%', // #8d1978
+  '291 61% 53%', // #cc38d7
+  '165 7% 30%', // #47504e
+  '168 79% 36%', // #0fa080
+  '200 81% 34%', // #0f64a0
+  '257 81% 34%', // #460fa0
+  '327 81% 34%', // #a00f65
+  '348 81% 34%', // #a00f24
+  '187 81% 34%', // #0f94a0
+  '160 81% 34%', // #0fa067
+  '150 81% 34%', // #0fa03c
+  '110 81% 34%', // #38a00f
+  '58 81% 34%', // #a09d0f
+  '38 81% 34%', // #a0670f
+  '24 81% 34%', // #a0370f
+  '0 81% 34%', // #a00f0f
+  '218 64% 48%', // #2e6bc6
+  '201 76% 47%', // #1992d4
+];
+export default function Root() {
+  const { appConsts } = useApp();
+  const location = useLocation();
+  const { user, isAuth } = useAuth();
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'loading';
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--primary',
+      getRandomColor(colors)
+    );
+  }, []);
+
+  return (
+    <>
+      <Header />
+
+      <main key={location.pathname}>
+        {isLoading && <LoadingOverlay />}
+        <div className="wrap">{<Outlet />}</div>
+      </main>
+      {isAuth && (
+        <Link
+          className="clickable bg-primary text-white fixed bottom-4 p-0 right-4 z-50 shadow-lg w-14 h-14 rounded-full flex items-center justify-center "
+          to="/files/new"
+        >
+          <CloudUpload size={24} strokeWidth={3} />
+        </Link>
+      )}
+      <Footer git={appConsts.gitRepo} className="mt-auto p-2 dark:bg-primaryDark">
+        <Copyright appName={appConsts.appName} />
+      </Footer>
+    </>
+  );
+}

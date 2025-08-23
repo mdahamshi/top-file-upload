@@ -9,9 +9,15 @@ const folder = {
   getById: async (id) => {
     return await prisma.folder.findUnique({
       where: { id },
+      include: { subfolders: true, files: true },
     });
   },
-
+  getByMe: async (userId) => {
+    return await prisma.folder.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    });
+  },
   create: async (data) => {
     return await prisma.folder.create({
       data,

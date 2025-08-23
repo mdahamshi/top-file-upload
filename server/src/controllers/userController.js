@@ -20,6 +20,18 @@ export const getUserById = async (req, res, next) => {
   }
 };
 
+export const getFolders = async (req, res, next) => {
+  try {
+    const {userId} = req.params;
+    const items = await db.folder.getByMe(userId);
+
+    res.json(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const createUser = async (req, res, next) => {
   try {
     const { email, fname, lname, passwordHash } = req.body;
