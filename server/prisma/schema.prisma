@@ -22,8 +22,8 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  rootFolderId String   @unique
-  rootFolder   Folder   @relation("UserRootFolder", fields: [rootFolderId], references: [id])
+  rootFolderId String?   @unique
+  rootFolder   Folder?   @relation("UserRootFolder", fields: [rootFolderId], references: [id])
 
   folders Folder[]
   files   File[]

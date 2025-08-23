@@ -1,63 +1,46 @@
-// prisma/seed.ts
+// src/db/init/seed.js
 import { prisma } from "../../utils/prisma.js";
-// const usersToUpdate = [
-//   { id: 'cmeejjocz0000k0hzkdgrigdo', email: 'mohammad.dahamshi@gmail.com' },
-//   { id: 'cmeejjocz0001k0hzfaz9xgo6', email: 'sarah.dahamshi@gmail.com' },
-// ];
-// async function main() {
-// // for (const u of usersToUpdate) {
-// //   await prisma.user.update({
-// //     where: { id: u.id },
-// //     data: { email: u.email },
-// //   });
-// // }
-// const res = await prisma.user.findMany()
-//   console.log(res)
-// }
 
-// main()
-//   .catch((e) => {
-//     console.error(e);
-//     process.exit(1);
-//   })
-//   .finally(async () => {
-//     await prisma.$disconnect();
-//   });
-
-
-
+const users = [
+  {
+    fname: "Mohammad",
+    lname: "Dahamshi",
+    email: "mohammad.dahamshi@gmail.com",
+    passwordHash: "$2b$10$x6gir2ZBJ399bARIxkow7uhrOw8fqPojsMeiAc1xMCRRL6CCqwDGS",
+  },
+  {
+    fname: "Sarah",
+    lname: "Dahamshi",
+    email: "sarah.dahamshi@gmail.com",
+    passwordHash: "$2b$10$cnAf72pKB2/w.d134QJu1O51s.PSfw0dhwXwWTKkq92XPbaTIUjUC",
+  },
+  {
+    fname: "Salmah",
+    lname: "Dahamshi",
+    email: "salmah.dahamshi.22@gmail.com",
+    passwordHash: "$2b$10$cnAf72pKB2/w.d134QJu1O51s.PSfw0dhwXwWTKkq92XPbaTIUjUC",
+  },
+];
 
 async function main() {
-  // Find all users
-  const users = await prisma.user.findMany();
-
-  for (const user of users) {
-    // Find their "Others" folder
-    const others = await prisma.folder.findFirst({
-      where: {
-        name: "Others",
-        userId: user.id,
-      },
-    });
-
-    if (others) {
-      console.log(`Setting root folder for user ${user.email} -> ${others.id}`);
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { rootFolderId: others.id },
-      });
-    } else {
-      console.log(`⚠️ No "Others" folder for user ${user.email}, skipping...`);
-    }
+  for (const u of users) {
+    // Use extended `create` which handles rootFolder creation
+    const user = await prisma.user.create({ data: u });
+    console.log(`✅ Created user ${user.fname} ${user.lname} with root folder`);
   }
+
+  // Verify users and folders
+  const allUsers = await prisma.user.findMany({
+    include: { folders: true },
+  });
+  console.log(allUsers);
 }
 
 main()
-  .then(() => {
-    console.log("Done setting root folders");
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error(err);
+  .catch((e) => {
+    console.error("❌ Error seeding users:", e);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });

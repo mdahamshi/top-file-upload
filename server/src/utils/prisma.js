@@ -3,24 +3,24 @@ const base = new PrismaClient();
 
 const prisma = base.$extends({
   query: {
-    file: {
+    user: {
       async create({ args, query }) {
+        // 1. Create the user
+        const user = await query(args);
 
-        if (!args.data.folderId) {
-          let others = await base.folder.findFirst({
-            where: { name: "Others", userId: args.data.ownerId },
-          });
+        // 2. Create the root folder for this user
+        const rootFolder = await prisma.folder.create({
+          data: {
+            name: "Root",
+            userId: user.id,
+          },
+        });
 
-          if (!others) {
-            others = await base.folder.create({
-              data: { name: "Others", userId: args.data.ownerId },
-            });
-          }
-
-          args.data.folderId = others.id;
-        }
-
-        return query(args);
+        // 3. Update the user with rootFolderId
+        return prisma.user.update({
+          where: { id: user.id },
+          data: { rootFolderId: rootFolder.id },
+        });
       },
     },
   },
