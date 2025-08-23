@@ -145,3 +145,4 @@ node_modules
 .vscode
 /generated/prisma
 /src/generated/prisma
+init/test.js
