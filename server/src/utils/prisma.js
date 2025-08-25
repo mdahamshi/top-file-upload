@@ -11,8 +11,9 @@ const prisma = base.$extends({
         // 2. Create the root folder for this user
         const rootFolder = await prisma.folder.create({
           data: {
-            name: "Root",
+            name: 'Root',
             userId: user.id,
+            parentId: null,
           },
         });
 

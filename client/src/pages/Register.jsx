@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Button, Label, TextInput, Card, Alert, Spinner } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import NotAuth from './NotAuth';
+import FailPage from './FailPage';
 import { Check, X } from 'lucide-react';
 import SmartButton from '../components/SmartButton';
 
@@ -77,7 +77,7 @@ export default function RegisterPage() {
 
   if (isAuth && !status.type) {
     return (
-      <NotAuth
+      <FailPage
         msg="You are logged in on this site!"
         link={{ text: 'Logout', id: 'logout' }}
       />

@@ -3,7 +3,7 @@ import { Card, Label, TextInput, Button, Alert } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SmartButton from '../components/SmartButton';
-import NotAuth from './NotAuth';
+import FailPage from './FailPage';
 export default function Join() {
   const [passcode, setPasscode] = useState('');
   const [message, setMessage] = useState(null);
@@ -24,14 +24,14 @@ export default function Join() {
   };
   if (!isAuth)
     return (
-      <NotAuth
+      <FailPage
         msg="You are not logged in on this site !"
         link={{ text: 'Login', id: 'login' }}
       />
     );
   if (isMember && !message)
     return (
-      <NotAuth
+      <FailPage
         msg="You are already a member !"
         link={{ text: 'Home', id: '' }}
       />

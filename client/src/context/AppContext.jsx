@@ -6,9 +6,9 @@ export const AppContext = createContext({
   theme: 'light',
 });
 const appConsts = {
-  appName: "SaraFiles",
+  appName: 'SaraFiles',
   gitRepo: 'https://github.com/mdahamshi/top-file-upload',
-}
+};
 export function AppProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light';

@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LoadingOverlay from '../components/LoadingOverly';
 
-import { CloudUpload } from 'lucide-react';
 const colors = [
   '345 75% 31%', // #8e1330
   '43 66% 32%', // #8a6c1d
@@ -52,19 +51,17 @@ export default function Root() {
     <>
       <Header />
 
-      <main key={location.pathname}>
+      <main>
         {isLoading && <LoadingOverlay />}
-        <div className="wrap">{<Outlet />}</div>
+        <div className="wrap">
+          <Outlet />
+        </div>
       </main>
-      {isAuth && (
-        <Link
-          className="clickable bg-primary text-white fixed bottom-4 p-0 right-4 z-50 shadow-lg w-14 h-14 rounded-full flex items-center justify-center "
-          to="/files/new"
-        >
-          <CloudUpload size={24} strokeWidth={3} />
-        </Link>
-      )}
-      <Footer git={appConsts.gitRepo} className="mt-auto p-2 dark:bg-primaryDark">
+      {isAuth && <></>}
+      <Footer
+        git={appConsts.gitRepo}
+        className="mt-auto p-2 dark:bg-primaryDark"
+      >
         <Copyright appName={appConsts.appName} />
       </Footer>
     </>

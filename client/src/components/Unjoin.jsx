@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NotAuth from '../pages/NotAuth';
+import FailPage from '../pages/FailPage';
 
 import { Card, Label, TextInput, Button, Alert } from 'flowbite-react';
 import SmartButton from './SmartButton';
@@ -26,14 +26,14 @@ export default function Unjoin() {
   };
   if (!isAuth)
     return (
-      <NotAuth
+      <FailPage
         msg="You are not logged in on this site !"
         link={{ text: 'Login', id: 'login' }}
       />
     );
   if (!isMember && !message)
     return (
-      <NotAuth
+      <FailPage
         msg="You are not a member!"
         link={{ text: 'Join', id: 'join' }}
       />

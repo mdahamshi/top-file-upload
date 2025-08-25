@@ -11,7 +11,8 @@ import RegisterPage from './pages/Register';
 import FileNew from './pages/FileNew';
 import PrivateRoute from './pages/PrivateRoute';
 import Folder from './components/Folder';
-
+import NewFolder from './pages/NewFolder';
+import FilePage from './pages/FilePage';
 export const routefromelement = createRoutesFromElements(
   <Route path="/" element={<Root />}>
     <Route errorElement={<Errorpage />}>
@@ -30,14 +31,21 @@ export const routefromelement = createRoutesFromElements(
       <Route path="/unjoin" element={<Unjoin />} />
 
       <Route
-        path="/files/new"
+        path="/new/:id/file"
         element={
           <PrivateRoute>
             <FileNew />
           </PrivateRoute>
         }
       />
-
+      <Route
+        path="/new/:id/folder"
+        element={
+          <PrivateRoute>
+            <NewFolder />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/folders/:id"
         element={
@@ -46,7 +54,14 @@ export const routefromelement = createRoutesFromElements(
           </PrivateRoute>
         }
       />
-
+      <Route
+        path="/files/:id"
+        element={
+          <PrivateRoute>
+            <FilePage />
+          </PrivateRoute>
+        }
+      />
       <Route path="*" element={<Errorpage />} />
     </Route>
   </Route>

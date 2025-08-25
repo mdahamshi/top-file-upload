@@ -4,7 +4,7 @@ import user from './queries/user.js';
 
 const db = {
   file,
-  user,  
+  user,
   folder,
 };
 

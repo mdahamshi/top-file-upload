@@ -1,15 +1,15 @@
-import { body, validationResult } from "express-validator";
+import { body, validationResult } from 'express-validator';
 
 export const registerValidationRules = [
-  body("email")
+  body('email')
     .trim()
     .notEmpty()
-    .withMessage("email is required")
+    .withMessage('email is required')
     .isAlphanumeric()
-    .withMessage("email must be alphanumeric"),
-  body("password").notEmpty().withMessage("Password is required"),
-  body("fname").trim().notEmpty().withMessage("First name is required"),
-  body("lname").trim().notEmpty().withMessage("Last name is required"),
+    .withMessage('email must be alphanumeric'),
+  body('password').notEmpty().withMessage('Password is required'),
+  body('fname').trim().notEmpty().withMessage('First name is required'),
+  body('lname').trim().notEmpty().withMessage('Last name is required'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

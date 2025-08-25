@@ -1,8 +1,8 @@
-import { prisma } from "../../utils/prisma.js";
+import { prisma } from '../../utils/prisma.js';
 const folder = {
   getAll: async () => {
     return await prisma.folder.findMany({
-      orderBy: { id: "asc" },
+      orderBy: { id: 'asc' },
     });
   },
 
@@ -15,7 +15,7 @@ const folder = {
   getByMe: async (userId) => {
     return await prisma.folder.findMany({
       where: { userId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
   },
   create: async (data) => {

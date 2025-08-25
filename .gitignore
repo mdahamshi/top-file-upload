@@ -145,5 +145,4 @@ vite.config.ts.timestamp-*
 .vscode
 docker-compose.override.yml
 
-db/test.js
 uploads

@@ -1,24 +1,27 @@
-import { Strategy as LocalStrategy } from "passport-local";
-import db from "../db/db.js";
-import bcrypt from "bcrypt";
-import { sanitizeUser } from "./sanitize.js";
-import passport from "passport";
+import { Strategy as LocalStrategy } from 'passport-local';
+import db from '../db/db.js';
+import bcrypt from 'bcrypt';
+import { sanitizeUser } from './sanitize.js';
+import passport from 'passport';
 export function setupPassport() {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-      try {
-        const user = await db.user.getByEmail(email);
-        if (!user)
-          return done(null, false, { error: "Please check your email" });
-        const match = await bcrypt.compare(password, user.passwordHash);
-        if (!match)
-          return done(null, false, { error: "Please check your password" });
+    new LocalStrategy(
+      { usernameField: 'email' },
+      async (email, password, done) => {
+        try {
+          const user = await db.user.getByEmail(email);
+          if (!user)
+            return done(null, false, { error: 'Please check your email' });
+          const match = await bcrypt.compare(password, user.passwordHash);
+          if (!match)
+            return done(null, false, { error: 'Please check your password' });
 
-        return done(null, sanitizeUser(user));
-      } catch (err) {
-        return done(err);
+          return done(null, sanitizeUser(user));
+        } catch (err) {
+          return done(err);
+        }
       }
-    }),
+    )
   );
 
   passport.serializeUser((user, done) => done(null, user.id));

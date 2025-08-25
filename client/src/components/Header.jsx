@@ -28,8 +28,11 @@ export default function Component() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   return (
-    <Navbar ref={navRef} className="sticky bg-primary dark:bg-primary text-white top-0 z-5 shadow-md">
-      <NavbarBrand href="/" as={Link}>
+    <Navbar
+      ref={navRef}
+      className="sticky bg-primary dark:bg-primary text-white top-0 z-5 shadow-md"
+    >
+      <NavbarBrand to="/" as={Link}>
         <Save className="size-10 mr-5 stroke-white" />
         <span className="hidden md:block self-center text-white whitespace-nowrap text-2xl font-semibold">
           {appConsts.appName}
@@ -53,7 +56,7 @@ export default function Component() {
             }
             to={`/users/${user.id}/messages`}
           >
-            <CircleUser className='text-white' />
+            <CircleUser className="text-white" />
           </NavLink>
         )}
         <NavbarToggle

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import NotAuth from '../pages/NotAuth';
+import FailPage from '../pages/FailPage';
 
 export default function Logout() {
   const { logout, isAuth } = useAuth();
@@ -19,5 +19,5 @@ export default function Logout() {
     if (isAuth) doLogout();
   }, []);
 
-  return <NotAuth title="Bye !" msg="Logging you out, come back soon :)" />;
+  return <FailPage title="Bye !" msg="Logging you out, come back soon :)" />;
 }

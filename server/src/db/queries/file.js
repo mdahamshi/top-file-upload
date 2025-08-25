@@ -1,9 +1,9 @@
-import { prisma } from "../../utils/prisma.js";
+import { prisma } from '../../utils/prisma.js';
 
 const file = {
   getAll: async () => {
     return await prisma.file.findMany({
-      orderBy: { id: "asc" },
+      orderBy: { id: 'asc' },
     });
   },
 

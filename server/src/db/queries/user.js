@@ -1,20 +1,22 @@
-import { prisma } from "../../utils/prisma.js";
+import { prisma } from '../../utils/prisma.js';
 const user = {
   getAll: async () => {
     return await prisma.user.findMany({
-      orderBy: { id: "asc" },
+      orderBy: { id: 'asc' },
     });
   },
 
   getById: async (id) => {
     return await prisma.user.findUnique({
       where: { id },
+      include: { rootFolder: true },
     });
   },
 
   getByEmail: async (email) => {
     return await prisma.user.findUnique({
       where: { email },
+      include: { rootFolder: true },
     });
   },
 

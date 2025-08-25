@@ -91,10 +91,7 @@ const MessageBubble = ({
               <div className="dark:text-white text-sm ">
                 by:
                 <strong className="dark:text-white text-primary">
-                  <Link to={`/users/${msg.user_id}/messages`}>
-                    {' '}
-                    @{email}
-                  </Link>
+                  <Link to={`/users/${msg.user_id}/messages`}> @{email}</Link>
                 </strong>
               </div>
             )}

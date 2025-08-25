@@ -7,7 +7,7 @@ export function sanitizeUser(user) {
     email: user.email,
     fname: user.fname,
     lname: user.lname,
-
+    rootFolder: user.rootFolder,
   };
 }
 
@@ -21,7 +21,7 @@ export function sanitizeMessage(message, user) {
   };
   if (!user) return defualtMesg;
 
-  if (user.role === "admin") return { ...message, editable: true };
+  if (user.role === 'admin') return { ...message, editable: true };
   if (user.membership_status)
     if (user.id === message.user_id) {
       return { ...message, editable: true };

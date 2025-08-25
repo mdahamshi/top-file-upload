@@ -7,8 +7,7 @@ function registerRoutes(app, apiV) {
   app.use(`/api/${apiV}/users`, usersRoutes);
   app.use(`/api/${apiV}/files`, filesRoutes);
   app.use(`/api/${apiV}/folders`, foldersRoutes);
-    app.use(`/api/${apiV}/auth`, authRoutes);
-
+  app.use(`/api/${apiV}/auth`, authRoutes);
 }
 
 export default registerRoutes;

@@ -19,6 +19,7 @@ import api from '../api/urls';
 import { useNavigate } from 'react-router-dom';
 import LoadingOverlay from '../components/LoadingOverly';
 import SmartButton from '../components/SmartButton';
+import { useParams } from 'react-router-dom';
 
 export default function FileNew() {
   const { isAuth, isAdmin } = useAuth();
@@ -33,12 +34,13 @@ export default function FileNew() {
   const [pinned, setPinned] = useState(false);
   const [message, setMsg] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
+  const { id } = useParams();
 
   function handleClose() {
     setFile(null);
     setText('');
     setMsg('');
-    navigate('/');
+    navigate(-1);
   }
   const handleChange = (e) => {
     setStatus({ type: null, message: null });
@@ -89,7 +91,7 @@ export default function FileNew() {
     formData.append('file', file, encodeURIComponent(file.name));
 
     try {
-      const res = await fetch(`${api.files}/upload`, {
+      const res = await fetch(`${api.files}/upload/${id}`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -154,12 +156,12 @@ export default function FileNew() {
             <p className="text-sm">Selected: {file.name}</p>
 
             <SmartButton
-              disabled={loading}
+              disabled={loading || status.type === 'success'}
               type="submit"
               className="btn-primary gap-4"
               onClick={handleUpload}
             >
-              {loading ? 'Uploading...' : 'Upload'}
+              {loading || status.type === 'success' ? 'Uploading...' : 'Upload'}
               <SendHorizontal />
             </SmartButton>
           </div>

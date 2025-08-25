@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/urls';
 import { useEffect } from 'react';
 import LoadingOverlay from '../components/LoadingOverly';
-import NotAuth from './NotAuth';
+import FailPage from './FailPage';
 import { LockIcon } from 'lucide-react';
 export default function UserMessages() {
   const { id } = useParams();
@@ -26,18 +26,18 @@ export default function UserMessages() {
   if (loading) return <LoadingOverlay />;
   if (!isAuth)
     return (
-      <NotAuth
+      <FailPage
         msg="You are not logged in on this site !"
         link={{ text: 'Login', id: 'login' }}
       />
     );
   if (!isMember && !isAdmin)
     return (
-      <NotAuth msg="You are not member!" link={{ text: 'Join', id: 'join' }} />
+      <FailPage msg="You are not member!" link={{ text: 'Join', id: 'join' }} />
     );
   if (!messages || messages.length === 0)
     return (
-      <NotAuth msg="No messages found !" link={{ text: 'Go Home', id: '' }} />
+      <FailPage msg="No messages found !" link={{ text: 'Go Home', id: '' }} />
     );
   const messageUser = messages[0]?.user;
   return (
