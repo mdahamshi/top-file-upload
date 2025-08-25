@@ -55,6 +55,8 @@ export const updateFolder = async (req, res, next) => {
 export const deleteFolder = async (req, res, next) => {
   const id = req.params.id;
   try {
+    if (id === req.user.rootFolder.id) throw new Error('Cannot delete root');
+
     await db.folder.delete(id);
     res.json({ message: 'Folder deleted' });
   } catch (error) {

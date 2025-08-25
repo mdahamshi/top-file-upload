@@ -38,7 +38,7 @@ model Folder {
 
   rootUser User? @relation("UserRootFolder")
 
-  parent   Folder? @relation("Subfolders", fields: [parentId], references: [id])
+  parent   Folder? @relation("Subfolders", fields: [parentId], references: [id], onDelete: Cascade)
   parentId String?
 
   subfolders Folder[] @relation("Subfolders")
@@ -63,7 +63,7 @@ model File {
   // Public URL when stored in cloud
   url          String?
 
-  folder   Folder? @relation(fields: [folderId], references: [id])
+  folder   Folder? @relation(fields: [folderId], references: [id], onDelete: Cascade)
   folderId String?
 
   owner   User   @relation(fields: [ownerId], references: [id])
