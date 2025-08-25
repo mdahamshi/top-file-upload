@@ -31,9 +31,26 @@ export default function Folder({ parentId }) {
   useEffect(() => {
     getFolder(id);
   }, [id]);
+  const handleUpdateFolder = async (fid, data) => {
+    await updateFolder(fid, data);
+    getFolder(id); // refresh
+  };
 
+  const handleRemoveFolder = async (fid) => {
+    await removeFolder(fid);
+    getFolder(id);
+  };
+
+  const handleUpdateFile = async (fid, data) => {
+    await updateFile(fid, data);
+    getFolder(id);
+  };
+
+  const handleRemoveFile = async (fid) => {
+    await removeFile(fid);
+    getFolder(id);
+  };
   if (loading || !folder) return <LoadingOverlay />;
-  console.log(folder);
   if (folder.subfolders.length === 0 && folder.files.length === 0)
     return (
       <Layout id={id} pathSegments={folder.pathSegments}>
@@ -70,8 +87,8 @@ export default function Folder({ parentId }) {
               createdAt={subfolder.createdAt}
               Icon={FolderIcon}
               to={api.folderById(subfolder.id)}
-              removeItem={() => removeFolder(subfolder.id)}
-              updateItem={(data) => updateFolder(subfolder.id, data)}
+              removeItem={() => handleRemoveFolder(subfolder.id)}
+              updateItem={(data) => handleUpdateFolder(subfolder.id, data)}
             />
           ))}
         {folder &&
@@ -84,8 +101,8 @@ export default function Folder({ parentId }) {
               size={file.size}
               Icon={File}
               to={api.fileById(file.id)}
-              removeItem={() => removeFile(file.id)}
-              updateItem={(data) => updateFile(file.id, data)}
+              removeItem={() => handleRemoveFile(file.id)}
+              updateItem={(data) => handleUpdateFile(file.id, data)}
             />
           ))}
       </ul>
