@@ -1,4 +1,5 @@
 import db from '../db/db.js';
+import fs from 'fs/promises'; // use promises API for cleaner async/await
 
 export const getAllFolders = async (req, res, next) => {
   try {
@@ -51,13 +52,29 @@ export const updateFolder = async (req, res, next) => {
     next(error);
   }
 };
+const deleteFolderRec = async (id) => {
+  const folder = await db.folder.getById(id);
+
+  if (!folder) return;
+
+  // Delete files from disk + DB
+  for (const file of folder.files) {
+    await fs.unlink(file.path);
+
+    await db.file.delete(file.id);
+  }
+
+  for (const child of folder.subfolders) {
+    await deleteFolderRec(child.id);
+  }
+  await db.folder.delete(id);
+};
 
 export const deleteFolder = async (req, res, next) => {
   const id = req.params.id;
   try {
     if (id === req.user.rootFolder.id) throw new Error('Cannot delete root');
-
-    await db.folder.delete(id);
+    deleteFolderRec(id);
     res.json({ message: 'Folder deleted' });
   } catch (error) {
     next(error);

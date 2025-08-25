@@ -1,4 +1,6 @@
 import db from '../db/db.js';
+import fs from 'fs/promises'; // use promises API for cleaner async/await
+
 import { makeMulter, persistFile } from '../services/storage.js';
 export const getAllFiles = async (req, res, next) => {
   try {
@@ -17,12 +19,6 @@ export const getFileById = async (req, res, next) => {
 
     if (!file) return res.status(404).json({ error: 'File not found' });
     res.json(file);
-
-    // if (file.url) {
-    //   // cloud file: redirect to URL
-    //   return res.redirect(file.url);
-    // }
-    // res.download(file.path, file.name);
   } catch (error) {
     next(error);
   }
@@ -94,6 +90,12 @@ export const updateFile = async (req, res, next) => {
 export const deleteFile = async (req, res, next) => {
   const id = req.params.id;
   try {
+    const file = await db.file.getById(id);
+    if (!file) return res.status(404).json({ error: 'File not found' });
+    if (file.path) {
+      await fs.unlink(file.path);
+    }
+
     await db.file.delete(id);
     res.json({ message: 'File deleted' });
   } catch (error) {
