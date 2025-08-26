@@ -46,6 +46,9 @@ export const updateFolder = async (req, res, next) => {
   const id = req.params.id;
   try {
     if (id === req.user.rootFolder.id) throw new Error('Cannot rename root');
+    const currentItem = await db.folder.getById(id);
+    if (currentItem.userId !== req.user.id)
+      throw new Error('Access denied');
     const { name } = req.body;
     const updatedItem = await db.folder.update(id, { name });
     res.json(updatedItem);
@@ -53,14 +56,18 @@ export const updateFolder = async (req, res, next) => {
     next(error);
   }
 };
+const provider = process.env.STORAGE_PROVIDER || 'local';
 const deleteFolderRec = async (id) => {
   const folder = await db.folder.getById(id);
 
   if (!folder) return;
-
+  if (folder.userId !== req.user.id)
+    throw new Error('Access denied');
   // Delete files from disk + DB
   for (const file of folder.files) {
-    await fs.unlink(file.path);
+    if (provider === 'local') {
+      await fs.unlink(file.path);
+    }
 
     await db.file.delete(file.id);
   }

@@ -80,21 +80,28 @@ export const updateFile = async (req, res, next) => {
   const id = req.params.id;
   try {
     const { name } = req.body;
+    const currentItem = await db.file.getById(id);
+    if (currentItem.userId !== req.user.id)
+      throw new Error('Access denied');
     const updatedItem = await db.file.update(id, { originalName: name });
     res.json(updatedItem);
   } catch (error) {
     next(error);
   }
 };
+const provider = process.env.STORAGE_PROVIDER || 'local';
 
 export const deleteFile = async (req, res, next) => {
   const id = req.params.id;
   try {
     const file = await db.file.getById(id);
     if (!file) return res.status(404).json({ error: 'File not found' });
-    if (file.path) {
+    if (file.userId !== req.user.id)
+      throw new Error('Access denied');
+    if (file.path && provider === 'local') {
       await fs.unlink(file.path);
     }
+
 
     await db.file.delete(id);
     res.json({ message: 'File deleted' });

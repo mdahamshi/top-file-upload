@@ -10,8 +10,8 @@ import {
 import { ensureAuthenticated } from '../middleware/auth.js';
 const router = express.Router();
 
-router.get('/', getAllFiles);
-router.get('/:id', getFileById);
+router.get('/', ensureAuthenticated, getAllFiles);
+router.get('/:id', ensureAuthenticated, getFileById);
 router.get('/:id/download', ensureAuthenticated, downloadFileById);
 router.post('/upload/:folderId?', ensureAuthenticated, createFile);
 router.put('/:id', ensureAuthenticated, updateFile);

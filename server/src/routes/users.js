@@ -12,11 +12,8 @@ import { registerValidationRules } from '../middleware/register.js';
 import { ensureAuthenticated } from '../middleware/auth.js';
 const router = express.Router();
 
-router.get('/', getAllUsers);
-router.get('/:id', getUserById);
+router.get('/:id', ensureAuthenticated, getUserById);
 router.post('/', registerValidationRules, createUser);
-router.put('/:id', ensureAuthenticated, updateUser);
-router.delete('/:id', deleteUser);
-router.get('/:userId/folders', getFolders);
+router.get('/:userId/folders', ensureAuthenticated, getFolders);
 
 export default router;

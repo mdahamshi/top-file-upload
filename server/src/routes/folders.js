@@ -11,7 +11,6 @@ import { ensureAuthenticated } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', getAllFolders);
 router.get('/root', ensureAuthenticated, getRoot);
 router.get('/:id', ensureAuthenticated, getFolderById);
 router.post('/', ensureAuthenticated, createFolder);
