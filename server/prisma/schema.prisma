@@ -77,10 +77,10 @@ model File {
 }
 
 model ShareLink {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   folderId  String
-  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  token     String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  folder    Folder    @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
 }

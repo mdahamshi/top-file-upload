@@ -1,5 +1,4 @@
 import { prisma } from '../../utils/prisma.js';
-import folder from './folder.js';
 
 const shareLink = {
   getAll: async () => {

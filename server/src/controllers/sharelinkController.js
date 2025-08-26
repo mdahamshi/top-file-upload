@@ -5,6 +5,7 @@ import { getFolderById } from './folderController.js';
 export const getAllShareLinks = async (req, res, next) => {
   try {
     const items = await db.sharelink.getAll();
+    console.log(items);
     res.json(items);
   } catch (error) {
     next(error);
@@ -33,8 +34,8 @@ export const createShareLink = async (req, res, next) => {
   try {
     const { duration, folderId } = req.body;
     const ms = (d) => parseInt(d) * 24 * 60 * 60 * 1000;
-    let expiresAt = 0;
-    if (duration !== 0) expiresAt = new Date(Date.now() + ms(duration));
+    let expiresAt = null;
+    if (duration != 0) expiresAt = new Date(Date.now() + ms(duration));
     const token = crypto.randomUUID();
 
     const newItem = await db.sharelink.create({ folderId, token, expiresAt });

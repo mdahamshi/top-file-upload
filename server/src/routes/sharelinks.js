@@ -5,6 +5,7 @@ import {
   getShareLinkById,
   getShareLinkUser,
   createShareLink,
+  getAllShareLinks,
   deleteShareLink,
 } from '../controllers/sharelinkController.js';
 import { ensureAuthenticated } from '../middleware/auth.js';
@@ -12,6 +13,7 @@ import { ensureShareExist } from '../middleware/share.js';
 
 const router = express.Router();
 
+router.get('/all', getAllShareLinks);
 router.get('/:token', ensureShareExist, getShareLinkById);
 router.get('/', ensureAuthenticated, getShareLinkUser);
 router.get('/:token/download/:fileId', ensureShareExist, downloadSharedFile);
