@@ -76,16 +76,18 @@ export default function Component() {
                 {user.email}
               </span>
             </DropdownHeader>
-            <DropdownItem>
-              <Link to={api.folderById(user.rootFolder.id)}>My Files</Link>
+            <DropdownItem as={Link} to={api.folderById(user.rootFolder.id)}>
+              My Files
             </DropdownItem>
-            <DropdownItem>
-              <Link to={'my-shares'}>My Shares</Link>
+
+            <DropdownItem as={Link} to="/my-shares">
+              My Shares
             </DropdownItem>
-            <DropdownItem>Earnings</DropdownItem>
+
             <DropdownDivider />
-            <DropdownItem>
-              <Link to={'logout'}>Sign out</Link>
+
+            <DropdownItem as={Link} to="/logout">
+              Sign out
             </DropdownItem>
           </Dropdown>
         )}
