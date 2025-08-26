@@ -91,7 +91,7 @@ export function ListItem({
           </Link>
         )}
         <div className="w-1/6 text-center   ">
-          {size ? formatBytes(size) : ''}
+          {size ? formatBytes(size) : '-'}
         </div>
         <div className="w-1/3  whitespace-nowrap text-right">
           {createdAt ? format(new Date(createdAt), 'PP, HH:mm') : ''}
