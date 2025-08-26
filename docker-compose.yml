@@ -36,7 +36,7 @@ services:
       retries: 2
   migrate:
     build: ./server
-    command: npx prisma migrate deploy
+    command: sh -c "npx prisma generate && npx prisma migrate deploy"
     environment:
       DATABASE_URL: postgres://${SERVICE_USER_POSTGRES}:${SERVICE_PASSWORD_POSTGRES}@postgres:5432/${SERVICE_USER_POSTGRES}
     depends_on:
