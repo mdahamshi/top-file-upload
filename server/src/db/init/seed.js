@@ -27,8 +27,12 @@ const users = [
 
 async function main() {
   for (const u of users) {
-    const user = await prisma.user.create({ data: u });
-    console.log(`✅ Created user ${user.fname} ${user.lname} with root folder`);
+    const user = await prisma.user.upsert({
+      where: { email: u.email },
+      update: {},
+      create: u,
+    });
+    console.log(`✅ Ensured user ${user.fname} ${user.lname}`);
   }
 
 
