@@ -1,5 +1,7 @@
 // utils/sanitize.js
 
+import db from '../db/db.js';
+
 export function sanitizeUser(user) {
   if (!user) return null;
   return {
@@ -30,8 +32,31 @@ export function sanitizeFolder(folder, user) {
     }
   return defualtFolder;
 }
+
 export function sanitizeShare(share) {
   if (!share) return;
+  share.folder.pathSegments = [
+    { id: share.folder.id, name: share.folder.name },
+  ];
   share.folder.parentId = null;
   return share;
 }
+
+export const sanitizeSharePathSegmants = async (folder, root) => {
+  let current = folder;
+  if (!root) {
+    folder.pathSegments = [{ id: folder.id, name: folder.name }];
+    return folder;
+  }
+  const helper = async () => {
+    const pathSegments = [];
+    while (current) {
+      pathSegments.unshift({ id: current.id, name: current.name });
+      if (current.id === root.id) return pathSegments;
+      if (current.parentId) current = await db.folder.getById(current.parentId);
+      else return null;
+    }
+  };
+  folder.pathSegments = await helper();
+  return folder;
+};

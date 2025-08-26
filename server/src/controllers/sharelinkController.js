@@ -1,7 +1,11 @@
 import db from '../db/db.js';
-import { sanitizeShare } from '../utils/sanitize.js';
+import {
+  sanitizeFolder,
+  sanitizeShare,
+  sanitizeSharePathSegmants,
+} from '../utils/sanitize.js';
 import { downloadFileById } from './fileController.js';
-import { getFolderById } from './folderController.js';
+
 export const getAllShareLinks = async (req, res, next) => {
   try {
     const items = await db.sharelink.getAll();
@@ -67,7 +71,6 @@ export const deleteShareLink = async (req, res, next) => {
 
 async function checkDesend(folder, root) {
   let current = folder;
-
   while (current) {
     if (current.id === root.id) return true;
     if (current.parentId) current = await db.folder.getById(current.parentId);
@@ -80,10 +83,13 @@ export const getSharedSubFolder = async (req, res, next) => {
   try {
     const item = await db.sharelink.getByToken(token);
     const folder = await db.folder.getById(folderId);
-    if (await checkDesend(folder, item.folder)) {
-      req.params.id = folderId;
+    if (folder.id === item.folder.id) {
+      folder.parentId = null;
+      return res.json(await sanitizeSharePathSegmants(folder));
+    }
 
-      return getFolderById(req, res, next);
+    if (await checkDesend(folder, item.folder)) {
+      return res.json(await sanitizeSharePathSegmants(folder, item.folder));
     }
     return res
       .status(404)
@@ -100,7 +106,7 @@ export const downloadSharedFile = async (req, res, next) => {
     const file = await db.file.getById(fileId);
     const folder = await db.folder.getById(file.folderId);
 
-    if (checkDesend(folder, item.folder)) {
+    if (await checkDesend(folder, item.folder)) {
       req.params.id = file.id;
       return downloadFileById(req, res, next);
     }

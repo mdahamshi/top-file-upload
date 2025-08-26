@@ -38,11 +38,11 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-4xl  font-bold mb-8 ">
+      <h1 className="dark:text-white text-4xl  font-bold mb-8 ">
         Welcome to the {appConsts.appName}
       </h1>
       {shares.length > 0 && (
-        <p>
+        <p className="dark:text-white">
           Here is a list of shared folders,{' '}
           <Link className="text-primary" to={'login'}>
             Log in

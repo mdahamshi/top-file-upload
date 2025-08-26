@@ -2,19 +2,22 @@ import { Link } from 'react-router-dom';
 import api from '../api/urls';
 import { ChevronsRight } from 'lucide-react';
 
-export default function Breadcrumb({ items }) {
+export default function Breadcrumb({ items, type, token }) {
   let sliced = items;
   if (!items) return;
   if (items.length > 4) {
     sliced = [items[0], { id: items[1].id, name: '...' }, ...items.slice(-3)];
-    console.log(sliced);
   }
   return (
     <nav className="flex  text-gray-700 gap-2 flex-wrap">
       {sliced.map((item, index) => (
         <span key={item.id} className="flex items-center">
           <Link
-            to={`${api.folderById(item.id)}`}
+            to={
+              type === 'share'
+                ? `${api.shareByTokenId(token, item.id)}`
+                : `${api.folderById(item.id)}`
+            }
             className="text-primary link-btn"
           >
             {item.name === 'Root' ? 'Home' : item.name}

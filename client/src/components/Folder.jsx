@@ -124,7 +124,7 @@ export default function Folder({ parentId }) {
 
 function Layout({ children, id, pathSegments }) {
   return (
-    <section className="msg-list dark:text-white">
+    <section className=" dark:text-white">
       <div className="flex flex-col  gap-4 mx-auto max-w-160">
         <Breadcrumb items={pathSegments} />
         {children}

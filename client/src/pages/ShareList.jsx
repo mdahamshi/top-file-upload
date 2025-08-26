@@ -36,11 +36,11 @@ export default function ShareList({ shareArg }) {
     <div className="dark:text-white h-full mt-8">
       {shareErr && <Alert color="failure">{shareErr}</Alert>}
 
-      <h1 className="text-4xl  font-bold mb-8 ">
+      <h1 className="text-2xl  font-bold mb-8 ">
         Shared by {shareArg ? 'Others' : 'You'}:
       </h1>
 
-      <section className="msg-list dark:text-white">
+      <section className="dark:text-white">
         <div className="flex flex-col  gap-4 mx-auto max-w-160">
           <ul>
             <div className="flex sticky shadow-md text-white top-16 bg-primary  p-2 py-5  justify-between font-bold">

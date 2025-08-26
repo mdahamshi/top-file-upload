@@ -15,7 +15,7 @@ export default function FolderList({ folders, files }) {
       />
     );
   return (
-    <section className="msg-list">
+    <section>
       <div className="flex flex-col  gap-4 mx-auto max-w-160">
         <ul>
           <div className="flex p-2 justify-between font-bold">

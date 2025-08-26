@@ -41,9 +41,8 @@ const Share = ({ onCancelSave }) => {
     };
     caller();
   }, [token, id]);
-  if (loading) return <LoadingOverlay />;
+  if (loading || !folder) return <LoadingOverlay />;
   if (shareErr || !folder) return <Errorpage errorArg={shareErr} />;
-
   if (folder.subfolders.length === 0 && folder.files.length === 0)
     return (
       <Layout id={id} pathSegments={folder.pathSegments}>
@@ -54,7 +53,7 @@ const Share = ({ onCancelSave }) => {
       </Layout>
     );
   return (
-    <Layout id={folder.id} pathSegments={folder.pathSegments}>
+    <Layout id={folder.id} token={token} pathSegments={folder.pathSegments}>
       {shareErr && <Alert color="failure">{shareErr}</Alert>}
       <ul>
         <div className="flex sticky shadow-md text-white top-16 bg-primary  p-2 py-5  justify-between font-bold">
@@ -98,10 +97,13 @@ const Share = ({ onCancelSave }) => {
   );
 };
 
-function Layout({ children, id, pathSegments }) {
+function Layout({ children, token, pathSegments }) {
   return (
-    <section className="msg-list dark:text-white">
-      <div className="flex flex-col  gap-4 mx-auto max-w-160">{children}</div>
+    <section className=" dark:text-white">
+      <div className="flex flex-col  gap-4 mx-auto max-w-160">
+        <Breadcrumb token={token} type="share" items={pathSegments} />
+        {children}
+      </div>
     </section>
   );
 }
