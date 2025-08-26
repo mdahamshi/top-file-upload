@@ -1,5 +1,6 @@
 import db from '../db/db.js';
 import fs from 'fs/promises'; // use promises API for cleaner async/await
+import { sanitizeFolder } from '../utils/sanitize.js';
 
 export const getAllFolders = async (req, res, next) => {
   try {
@@ -17,7 +18,7 @@ export const getFolderById = async (req, res, next) => {
     const item = await db.folder.getById(id);
     if (!item) return res.status(404).json({ error: 'Folder not found' });
     item.pathSegments = await getPathSegments(id);
-    res.json(item);
+    res.json(sanitizeFolder(item, req.user));
   } catch (error) {
     next(error);
   }

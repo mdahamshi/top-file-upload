@@ -12,9 +12,9 @@ const router = express.Router();
 
 router.get('/', getAllFiles);
 router.get('/:id', getFileById);
-router.get('/:id/download', downloadFileById);
+router.get('/:id/download', ensureAuthenticated, downloadFileById);
 router.post('/upload/:folderId?', ensureAuthenticated, createFile);
-router.put('/:id', updateFile);
-router.delete('/:id', deleteFile);
+router.put('/:id', ensureAuthenticated, updateFile);
+router.delete('/:id', ensureAuthenticated, deleteFile);
 
 export default router;

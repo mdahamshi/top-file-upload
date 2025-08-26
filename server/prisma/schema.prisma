@@ -22,8 +22,8 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  rootFolderId String?   @unique
-  rootFolder   Folder?   @relation("UserRootFolder", fields: [rootFolderId], references: [id])
+  rootFolderId String?  @unique
+  rootFolder   Folder?  @relation("UserRootFolder", fields: [rootFolderId], references: [id])
 
   folders Folder[]
   files   File[]
@@ -45,8 +45,9 @@ model Folder {
 
   files File[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  ShareLink ShareLink[]
 
   @@index([userId])
   @@index([parentId])
@@ -73,4 +74,13 @@ model File {
 
   @@index([ownerId])
   @@index([folderId])
+}
+
+model ShareLink {
+  id        String   @id @default(uuid())
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }

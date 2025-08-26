@@ -13,6 +13,8 @@ import PrivateRoute from './pages/PrivateRoute';
 import Folder from './components/Folder';
 import NewFolder from './pages/NewFolder';
 import FilePage from './pages/FilePage';
+import Share from './pages/Share';
+import ShareList from './pages/ShareList';
 export const routefromelement = createRoutesFromElements(
   <Route path="/" element={<Root />}>
     <Route errorElement={<Errorpage />}>
@@ -29,6 +31,8 @@ export const routefromelement = createRoutesFromElements(
       <Route path="/join" element={<Join />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/unjoin" element={<Unjoin />} />
+      <Route path="/share/:token/folder/:id" element={<Share />} />
+      <Route path="/share/:token" element={<Share />} />
 
       <Route
         path="/new/:id/file"
@@ -59,6 +63,14 @@ export const routefromelement = createRoutesFromElements(
         element={
           <PrivateRoute>
             <FilePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/my-shares"
+        element={
+          <PrivateRoute>
+            <ShareList />
           </PrivateRoute>
         }
       />

@@ -28,6 +28,13 @@ export default function Folder({ parentId }) {
     remove: removeFile,
     error: fileErr,
   } = useCrud(api.files);
+  const {
+    loadOne: getShare,
+    item: share,
+    create: createShare,
+    remove: removeShare,
+    error: shareErr,
+  } = useCrud(api.share);
   useEffect(() => {
     getFolder(id);
   }, [id]);
@@ -45,7 +52,11 @@ export default function Folder({ parentId }) {
     await updateFile(fid, data);
     getFolder(id);
   };
-
+  const handleShare = async (folderId, duration) => {
+    const { data: share } = await createShare({ folderId, duration });
+    console.log(share);
+    getFolder(id);
+  };
   const handleRemoveFile = async (fid) => {
     await removeFile(fid);
     getFolder(id);
@@ -65,11 +76,12 @@ export default function Folder({ parentId }) {
     <Layout id={id} pathSegments={folder.pathSegments}>
       {folderErr && <Alert color="failure">{folderErr}</Alert>}
       {fileErr && <Alert color="failure">{fileErr}</Alert>}
+      {shareErr && <Alert color="failure">{shareErr}</Alert>}
       <ul>
-        <div className="flex sticky shadow-md text-white top-16 bg-primary  p-2 justify-between font-bold">
-          <h3 className="basis-2/3">Name</h3>
-          <h3 className="basis-1/6 mr-6">Size</h3>
-          <h3 className="basis-1/6 ">Created</h3>
+        <div className="flex sticky shadow-md text-white top-16 bg-primary  p-2 py-5  justify-between font-bold">
+          <h3 className="w-1/2">Name</h3>
+          <h3 className="w-1/6 text-center ">Size</h3>
+          <h3 className="w-1/3 text-right ">Created</h3>
         </div>
         {folder && folder.parentId && (
           <ListItem
@@ -89,6 +101,7 @@ export default function Folder({ parentId }) {
               to={api.folderById(subfolder.id)}
               removeItem={() => handleRemoveFolder(subfolder.id)}
               updateItem={(data) => handleUpdateFolder(subfolder.id, data)}
+              shareItem={(duration) => handleShare(subfolder.id, duration)}
             />
           ))}
         {folder &&

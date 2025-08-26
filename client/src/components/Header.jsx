@@ -5,8 +5,15 @@ import {
   NavbarToggle,
   NavbarLink,
   Button,
+  Dropdown,
+  DropdownHeader,
+  DropdownItem,
+  DropdownDivider,
 } from 'flowbite-react';
+import Avatar from 'react-avatar';
+
 import { useState, useRef, useEffect } from 'react';
+import anyImage from '../assets/any.png';
 import api from '../api/urls';
 import Navbarsb from './Navbar';
 import { Save, Sun, Moon, CircleUser } from 'lucide-react';
@@ -48,16 +55,39 @@ export default function Component() {
           )}
         </button>
         {isAuth && (
-          <NavLink
-            className={({ isActive }) =>
-              ['nav-link', isActive && 'font-bold !border-current']
-                .filter(Boolean)
-                .join(' ')
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar
+                size="40"
+                src={anyImage}
+                email={user.email}
+                round={true}
+                className="text-white bg-primary"
+              />
             }
-            to={`/users/${user.id}/messages`}
           >
-            <CircleUser className="text-white" />
-          </NavLink>
+            <DropdownHeader>
+              <span className="block text-sm">
+                {user.fname + ' ' + user.lname}
+              </span>
+              <span className="block truncate text-sm font-medium">
+                {user.email}
+              </span>
+            </DropdownHeader>
+            <DropdownItem>
+              <Link to={api.folderById(user.rootFolder.id)}>My Files</Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link to={'my-shares'}>My Shares</Link>
+            </DropdownItem>
+            <DropdownItem>Earnings</DropdownItem>
+            <DropdownDivider />
+            <DropdownItem>
+              <Link to={'logout'}>Sign out</Link>
+            </DropdownItem>
+          </Dropdown>
         )}
         <NavbarToggle
           className="text-white "

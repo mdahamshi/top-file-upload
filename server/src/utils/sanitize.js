@@ -11,20 +11,22 @@ export function sanitizeUser(user) {
   };
 }
 
-export function sanitizeMessage(message, user) {
-  if (!message) return null;
-  const defualtMesg = {
-    id: message.id,
-    content: message.content,
-    title: message.title,
-    pinned: message.pinned,
+export function sanitizeFolder(folder, user) {
+  if (!folder) return null;
+  const defualtFolder = {
+    id: folder.id,
+    name: folder.name,
+    parentId: folder.parentId,
+    createdAt: folder.createdAt,
+    updatedAt: folder.updatedAt,
+    subfolders: folder.subfolders,
+    files: folder.files,
   };
-  if (!user) return defualtMesg;
+  if (!user) return defualtFolder;
 
-  if (user.role === 'admin') return { ...message, editable: true };
-  if (user.membership_status)
-    if (user.id === message.user_id) {
-      return { ...message, editable: true };
-    } else return message;
-  return defualtMesg;
+  if (user)
+    if (user.id === folder.userId) {
+      return folder;
+    }
+  return defualtFolder;
 }

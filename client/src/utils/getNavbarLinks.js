@@ -6,7 +6,7 @@ export function getNavbarLinks(isAuth, user, inLinks = null) {
   if (!isAuth) {
     finalLinks.push(userStatusLinks.login, userStatusLinks.register);
   } else {
-    finalLinks.push(userStatusLinks.logout);
+    finalLinks.push(userStatusLinks.logout, userStatusLinks.shares);
   }
 
   return finalLinks;

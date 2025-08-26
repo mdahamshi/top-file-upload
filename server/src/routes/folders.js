@@ -7,14 +7,15 @@ import {
   updateFolder,
   deleteFolder,
 } from '../controllers/folderController.js';
+import { ensureAuthenticated } from '../middleware/auth.js';
 
 const router = express.Router();
 
 router.get('/', getAllFolders);
-router.get('/root', getRoot);
-router.get('/:id', getFolderById);
-router.post('/', createFolder);
-router.put('/:id', updateFolder);
-router.delete('/:id', deleteFolder);
+router.get('/root', ensureAuthenticated, getRoot);
+router.get('/:id', ensureAuthenticated, getFolderById);
+router.post('/', ensureAuthenticated, createFolder);
+router.put('/:id', ensureAuthenticated, updateFolder);
+router.delete('/:id', ensureAuthenticated, deleteFolder);
 
 export default router;

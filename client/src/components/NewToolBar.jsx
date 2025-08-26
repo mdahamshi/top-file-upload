@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { CloudUpload, FolderPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../api/urls';
+import { useAuth } from '../context/AuthContext';
 
 export default function NewToolBar({ id }) {
+  const { isAuth, user } = useAuth();
+
+  if (!isAuth) return;
   return (
     <>
       <Link

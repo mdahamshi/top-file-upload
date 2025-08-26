@@ -11,6 +11,7 @@ import api from '../api/urls';
 import LoadingOverlay from '../components/LoadingOverly';
 import FolderList from '../components/FolderList';
 import Folder from '../components/Folder';
+import ShareList from './ShareList';
 export default function Home() {
   const { isAuth, user } = useAuth();
 
@@ -18,11 +19,13 @@ export default function Home() {
 
   return (
     <div className="dark:text-white h-full">
-      <h1 className="text-4xl text-center font-bold mb-8 ">
+      <h1 className="text-4xl  font-bold mb-8 ">
         Welcome to the {appConsts.appName} {isAuth && `, ${user.fname} `}
         <Smile size={44} className="align-bottom inline" />
       </h1>
       <Folder parentId={user.rootFolder.id} />
+
+      <ShareList />
     </div>
   );
 }

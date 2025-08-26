@@ -4,6 +4,7 @@ import { ChevronsRight } from 'lucide-react';
 
 export default function Breadcrumb({ items }) {
   let sliced = items;
+  if (!items) return;
   if (items.length > 4) {
     sliced = [items[0], { id: items[1].id, name: '...' }, ...items.slice(-3)];
     console.log(sliced);
