@@ -6,6 +6,7 @@ const api = {
   fileDownload: (id) => `${base}/files/${id}/download`,
   folders: `${base}/folders`,
   share: `${base}/share`,
+  shareAll: `${base}/share/all`,
   root: `${base}/folders/root`,
   messages: `${base}/messages`,
   userFolders: (id) => `${base}/folders/${id}`,

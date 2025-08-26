@@ -12,10 +12,10 @@ import LoadingOverlay from '../components/LoadingOverly';
 import FolderList from '../components/FolderList';
 import Folder from '../components/Folder';
 import { ShareItem } from '../components/ShareItem';
-export default function ShareList() {
+export default function ShareList({ shareArg }) {
   const {
     load: getShares,
-    data: shares,
+    data: sharesLoad,
     create: createShare,
     remove: removeShare,
     error: shareErr,
@@ -26,9 +26,9 @@ export default function ShareList() {
     getShares();
   };
   useEffect(() => {
-    getShares();
+    if (!shareArg) getShares();
   }, []);
-
+  const shares = shareArg || sharesLoad;
   if (loading || !shares) return <LoadingOverlay />;
   if (shares.length === 0) return;
 
@@ -36,7 +36,9 @@ export default function ShareList() {
     <div className="dark:text-white h-full mt-8">
       {shareErr && <Alert color="failure">{shareErr}</Alert>}
 
-      <h1 className="text-4xl  font-bold mb-8 ">Shared by You:</h1>
+      <h1 className="text-4xl  font-bold mb-8 ">
+        Shared by {shareArg ? 'Others' : 'You'}:
+      </h1>
 
       <section className="msg-list dark:text-white">
         <div className="flex flex-col  gap-4 mx-auto max-w-160">

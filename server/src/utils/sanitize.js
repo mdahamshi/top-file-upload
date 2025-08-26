@@ -30,3 +30,8 @@ export function sanitizeFolder(folder, user) {
     }
   return defualtFolder;
 }
+export function sanitizeShare(share) {
+  if (!share) return;
+  share.folder.parentId = null;
+  return share;
+}

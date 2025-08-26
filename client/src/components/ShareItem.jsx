@@ -11,8 +11,11 @@ import ItemEdit from './ItemEdit.jsx';
 import FolderShare from './FolderShare.jsx';
 import CopyLinkButton from './CopyLinkButton.jsx';
 import { formatDistanceToNow } from 'date-fns/esm';
+import { useAuth } from '../context/AuthContext.jsx';
 export function ShareItem({ item, removeShare }) {
   const [remove, setRemove] = useState(false);
+  const { isAuth, user } = useAuth();
+
   const handleRemove = () => {
     setRemove(false);
     removeShare();
@@ -27,25 +30,33 @@ export function ShareItem({ item, removeShare }) {
         title="Delete"
       />
     );
-
   const content = (
     <div className="flex  flex-col bg-white dark:bg-primaryDark justify-between border border-gray-400 p-1 mb-0.5">
       <div className="flex  ">
         <div className="flex w-1/3 gap-1 clickable items-center">
-          <FolderIcon className="text-primary dark:text-white shrink-0" />
-          <span className="truncate " title={item.folder.name}>
-            {item.folder.name}
-          </span>
+          <Link
+            className="flex w-1/3 gap-1 clickable items-center"
+            to={`${window.location.origin}/${api.shareByToken(item.token)}`}
+          >
+            <FolderIcon className="text-primary dark:text-white shrink-0" />
+            <span className="truncate " title={item.folder.name}>
+              {item.folder.name}
+            </span>
+          </Link>
         </div>
         <div className="w-1/3 text-center ">
           {format(new Date(item.createdAt), 'PP, HH:mm')}
         </div>
         <div className="w-1/3 text-right">
-          {formatDistanceToNow(new Date(item.expiresAt), { addSuffix: true })}
+          {item.expiresAt === null
+            ? 'Forever'
+            : formatDistanceToNow(new Date(item.expiresAt), {
+                addSuffix: true,
+              })}
         </div>
       </div>
       <div className="flex justify-end gap-4 ">
-        {removeShare && (
+        {isAuth && item.userId == user.id && (
           <span title="Delete" className="clickable">
             <Trash
               className="dark:stroke-white clickable text-primary"

@@ -1,12 +1,11 @@
 import db from '../db/db.js';
+import { sanitizeShare } from '../utils/sanitize.js';
 import { downloadFileById } from './fileController.js';
 import { getFolderById } from './folderController.js';
-
 export const getAllShareLinks = async (req, res, next) => {
   try {
     const items = await db.sharelink.getAll();
-    console.log(items);
-    res.json(items);
+    res.json(items.map(sanitizeShare));
   } catch (error) {
     next(error);
   }
@@ -16,7 +15,7 @@ export const getShareLinkById = async (req, res, next) => {
   const { token } = req.params;
   try {
     const item = await db.sharelink.getByToken(token);
-    res.json(item.folder);
+    res.json(sanitizeShare(item).folder);
   } catch (error) {
     next(error);
   }
@@ -24,7 +23,7 @@ export const getShareLinkById = async (req, res, next) => {
 export const getShareLinkUser = async (req, res, next) => {
   try {
     const items = await db.sharelink.getByUser(req.user.id);
-    res.json(items);
+    res.json(items.map(sanitizeShare));
   } catch (error) {
     next(error);
   }

@@ -20,6 +20,7 @@ import LoadingOverlay from '../components/LoadingOverly';
 import { ListItem } from '../components/ListItem';
 import NewToolBar from '../components/NewToolBar';
 import Errorpage from './Errorpage';
+import FailPage from './FailPage';
 const Share = ({ onCancelSave }) => {
   const { token, id } = useParams();
   const shareUrl = id ? api.shareByTokenIdServer(token) : null;
@@ -42,6 +43,16 @@ const Share = ({ onCancelSave }) => {
   }, [token, id]);
   if (loading) return <LoadingOverlay />;
   if (shareErr || !folder) return <Errorpage errorArg={shareErr} />;
+
+  if (folder.subfolders.length === 0 && folder.files.length === 0)
+    return (
+      <Layout id={id} pathSegments={folder.pathSegments}>
+        <FailPage
+          link={{ text: 'Home', id: `/` }}
+          title={'No files in this share !'}
+        />
+      </Layout>
+    );
   return (
     <Layout id={folder.id} pathSegments={folder.pathSegments}>
       {shareErr && <Alert color="failure">{shareErr}</Alert>}
