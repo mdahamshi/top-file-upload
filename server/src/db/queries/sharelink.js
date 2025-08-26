@@ -4,6 +4,13 @@ const shareLink = {
   getAll: async () => {
     return await prisma.shareLink.findMany({
       orderBy: { id: 'asc' },
+      include: {
+        folder: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
   },
 
