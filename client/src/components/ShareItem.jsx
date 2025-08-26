@@ -35,7 +35,7 @@ export function ShareItem({ item, removeShare }) {
       <div className="flex  ">
         <div className="flex w-1/3 gap-1 clickable items-center">
           <Link
-            className="flex w-1/3 gap-1 clickable items-center"
+            className="flex  gap-1 clickable items-center"
             to={`${window.location.origin}/${api.shareByToken(item.token)}`}
           >
             <FolderIcon className="text-primary dark:text-white shrink-0" />
