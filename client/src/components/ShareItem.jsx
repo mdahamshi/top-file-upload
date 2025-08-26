@@ -55,18 +55,21 @@ export function ShareItem({ item, removeShare }) {
               })}
         </div>
       </div>
-      <div className="flex justify-end gap-4 ">
-        {isAuth && item.userId == user.id && (
-          <span title="Delete" className="clickable">
-            <Trash
-              className="dark:stroke-white clickable text-primary"
-              onClick={() => setRemove(true)}
-            />
-          </span>
-        )}
-        <CopyLinkButton
-          link={`${window.location.origin}/${api.shareByToken(item.token)}`}
-        />
+      <div className="flex justify-between">
+        <div>{!isAuth && <p>Shared by: {item.folder.user.fname}</p>}</div>
+        <div className="flex justify-end gap-4 ">
+          {isAuth && item.userId == user.id && (
+            <span title="Delete" className="clickable">
+              <Trash
+                className="dark:stroke-white clickable text-primary"
+                onClick={() => setRemove(true)}
+              />
+            </span>
+          )}
+          <CopyLinkButton
+            link={`${window.location.origin}/${api.shareByToken(item.token)}`}
+          />
+        </div>
       </div>
     </div>
   );

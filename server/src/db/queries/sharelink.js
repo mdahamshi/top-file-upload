@@ -22,7 +22,9 @@ const shareLink = {
   getByToken: async (token) => {
     return await prisma.shareLink.findUnique({
       where: { token },
-      include: { folder: { include: { files: true, subfolders: true } } },
+      include: {
+        folder: { include: { files: true, user: true, subfolders: true } },
+      },
     });
   },
 
