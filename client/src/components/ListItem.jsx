@@ -85,15 +85,15 @@ export function ListItem({
             to={shareToken ? '' : to}
             target={shareToken ? '_blank' : ''}
             rel={shareToken ? 'noopener noreferrer' : ''}
-            className="flex min-w-0 w-1/2 gap-1 clickable items-center"
+            className="flex min-w-0 w-1/3 gap-1 clickable items-center"
           >
             {linkContent}
           </Link>
         )}
-        <div className="w-1/6 text-center   ">
+        <div className="w-1/3 text-center   ">
           {size ? formatBytes(size) : '-'}
         </div>
-        <div className="w-1/3  whitespace-nowrap text-right">
+        <div className="w-1/3   text-right">
           {createdAt ? format(new Date(createdAt), 'PP, HH:mm') : ''}
         </div>
       </div>

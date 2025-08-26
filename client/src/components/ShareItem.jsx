@@ -31,16 +31,16 @@ export function ShareItem({ item, removeShare }) {
   const content = (
     <div className="flex  flex-col bg-white dark:bg-primaryDark justify-between border border-gray-400 p-1 mb-0.5">
       <div className="flex  ">
-        <div className="flex w-1/2 gap-1 clickable items-center">
+        <div className="flex w-1/3 gap-1 clickable items-center">
           <FolderIcon className="text-primary dark:text-white shrink-0" />
           <span className="truncate " title={item.folder.name}>
             {item.folder.name}
           </span>
         </div>
-        <div className="w-1/6 text-center whitespace-nowrap">
+        <div className="w-1/3 text-center ">
           {format(new Date(item.createdAt), 'PP, HH:mm')}
         </div>
-        <div className="w-1/3 text-right    whitespace-nowrap">
+        <div className="w-1/3 text-right">
           {formatDistanceToNow(new Date(item.expiresAt), { addSuffix: true })}
         </div>
       </div>

@@ -42,8 +42,8 @@ export default function ShareList() {
         <div className="flex flex-col  gap-4 mx-auto max-w-160">
           <ul>
             <div className="flex sticky shadow-md text-white top-16 bg-primary  p-2 py-5  justify-between font-bold">
-              <h3 className="w-1/2">Name</h3>
-              <h3 className="w-1/6 text-center ">Created</h3>
+              <h3 className="w-1/3">Name</h3>
+              <h3 className="w-1/3 text-center ">Created</h3>
               <h3 className="w-1/3 text-right">Expires</h3>
             </div>
             {shares.map((share) => (
