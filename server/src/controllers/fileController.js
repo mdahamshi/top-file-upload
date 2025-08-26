@@ -65,7 +65,7 @@ export const createFile = async (req, res, next) => {
         mimeType: req.file.mimetype,
         path,
         url,
-        ownerId: req.user.id,
+        userId: req.user.id,
         folderId,
       });
 
