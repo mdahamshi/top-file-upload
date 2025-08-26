@@ -7,7 +7,7 @@ export const ensureShareExist = async (req, res, next) => {
   else item = await db.sharelink.getById(id);
   if (!item) return res.status(404).json({ error: 'ShareLink not found' });
 
-  if (new Date() > item.expiresAt) {
+  if (item.expiresAt && new Date() > item.expiresAt) {
     await db.sharelink.delete(item.id);
     return res.status(410).json({ error: 'ShareLink expired' });
   }

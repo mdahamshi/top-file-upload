@@ -34,6 +34,7 @@ const FolderShare = ({ onCancelSave }) => {
           <option value="1">1d</option>
           <option value="7">7d</option>
           <option value="30">30d</option>
+          <option value="0">Forever</option>
         </Select>
       </div>
       <div className="w-full  flex gap-4 justify-end">

@@ -28,7 +28,7 @@ const users = [
 async function main() {
   for (const u of users) {
     const user = await prisma.user.create({
-      data: u
+      data: u,
     });
     console.log(`✅ Ensured user ${user.fname} ${user.lname}`);
   }

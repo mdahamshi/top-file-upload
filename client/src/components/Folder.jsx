@@ -54,7 +54,6 @@ export default function Folder({ parentId }) {
   };
   const handleShare = async (folderId, duration) => {
     const { data: share } = await createShare({ folderId, duration });
-    console.log(share);
     getFolder(id);
   };
   const handleRemoveFile = async (fid) => {

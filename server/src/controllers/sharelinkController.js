@@ -33,7 +33,8 @@ export const createShareLink = async (req, res, next) => {
   try {
     const { duration, folderId } = req.body;
     const ms = (d) => parseInt(d) * 24 * 60 * 60 * 1000;
-    const expiresAt = new Date(Date.now() + ms(duration));
+    let expiresAt = 0;
+    if (duration !== 0) expiresAt = new Date(Date.now() + ms(duration));
     const token = crypto.randomUUID();
 
     const newItem = await db.sharelink.create({ folderId, token, expiresAt });
