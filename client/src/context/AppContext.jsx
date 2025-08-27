@@ -23,7 +23,6 @@ export function AppProvider({ children }) {
     if (theme === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
     localStorage.setItem('theme', theme);
-    document.title = appConsts.appName;
   }, [theme]);
   const toggleTheme = () =>
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
