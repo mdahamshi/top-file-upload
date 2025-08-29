@@ -25,7 +25,11 @@ const user = {
       data,
     });
   },
-
+  searchByUName: async (email) => {
+    return await prisma.user.findUnique({
+      where: { email },
+    });
+  },
   update: async (id, data) => {
     return await prisma.user.update({
       where: { id },

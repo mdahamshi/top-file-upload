@@ -5,8 +5,8 @@ export const registerValidationRules = [
     .trim()
     .notEmpty()
     .withMessage('email is required')
-    .isAlphanumeric()
-    .withMessage('email must be alphanumeric'),
+    .isEmail()
+    .withMessage('email must be valid'),
   body('password').notEmpty().withMessage('Password is required'),
   body('fname').trim().notEmpty().withMessage('First name is required'),
   body('lname').trim().notEmpty().withMessage('Last name is required'),

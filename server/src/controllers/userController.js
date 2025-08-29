@@ -1,4 +1,6 @@
 import db from '../db/db.js';
+import { generatePasswordHash } from '../utils/passport.js';
+import { sanitizeUser } from '../utils/sanitize.js';
 
 export const getAllUsers = async (req, res, next) => {
   try {
@@ -33,9 +35,18 @@ export const getFolders = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    const { email, fname, lname, passwordHash } = req.body;
+    const { email: emailArg, fname, lname, password } = req.body;
+    const email = emailArg.trim();
+    const passwordHash = await generatePasswordHash(password);
     const newItem = await db.user.create({ email, fname, lname, passwordHash });
-    res.status(201).json(newItem);
+    const createdUser = await db.user.getByEmail(email);
+    return req.login(createdUser, (err) => {
+      if (err) return next(err);
+      res.status(201).json({
+        message: 'Registration successful',
+        user: sanitizeUser(createdUser),
+      });
+    });
   } catch (error) {
     next(error);
   }
@@ -62,6 +73,26 @@ export const deleteUser = async (req, res, next) => {
   try {
     await db.user.delete(id);
     res.json({ message: 'User deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchUName = async (req, res, next) => {
+  try {
+    const search = req.query.search?.trim();
+    let items;
+    items = await db.user.searchByUName(search);
+    if (!items) {
+      return res.json({
+        available: true,
+        message: `'${search}' is available.`,
+      });
+    } else {
+      return res
+        .status(409)
+        .json({ available: false, error: `'${search}' is already taken.` });
+    }
   } catch (error) {
     next(error);
   }
